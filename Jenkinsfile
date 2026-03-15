@@ -3,15 +3,9 @@ pipeline {
 
     stages {
 
-        stage('Restore') {
+        stage('Build .NET') {
             steps {
-                sh 'dotnet restore'
-            }
-        }
-
-        stage('Build') {
-            steps {
-                sh 'dotnet build --no-restore'
+                sh 'dotnet build'
             }
         }
 
@@ -21,7 +15,7 @@ pipeline {
             }
         }
 
-        stage('Docker Build') {
+        stage('Build Docker Image') {
             steps {
                 sh 'docker build -t devops-lab-api .'
             }
