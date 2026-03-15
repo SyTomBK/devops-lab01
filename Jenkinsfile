@@ -2,24 +2,10 @@ pipeline {
     agent any
 
     stages {
-
-        stage('Build .NET') {
+        stage('Test Pipeline') {
             steps {
-                sh 'dotnet build'
+                sh 'echo Jenkins pipeline running'
             }
         }
-
-        stage('Publish') {
-            steps {
-                sh 'dotnet publish -c Release'
-            }
-        }
-
-        stage('Build Docker Image') {
-            steps {
-                sh 'docker build -t devops-lab-api .'
-            }
-        }
-
     }
 }
