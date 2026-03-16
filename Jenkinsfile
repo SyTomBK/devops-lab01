@@ -3,6 +3,12 @@ pipeline {
 
     stages {
 
+        stage('Debug Folder') {
+            steps {
+                sh 'ls -R'
+            }
+        }
+
         stage('Restore') {
             steps {
                 sh '''
@@ -10,7 +16,7 @@ pipeline {
                 -v $PWD:/src \
                 -w /src \
                 mcr.microsoft.com/dotnet/sdk:8.0 \
-                dotnet restore lab01-hello-api/Lab01HelloApi.csproj
+                dotnet restore
                 '''
             }
         }
@@ -22,7 +28,7 @@ pipeline {
                 -v $PWD:/src \
                 -w /src \
                 mcr.microsoft.com/dotnet/sdk:8.0 \
-                dotnet build lab01-hello-api/Lab01HelloApi.csproj --no-restore
+                dotnet build
                 '''
             }
         }
@@ -34,7 +40,7 @@ pipeline {
                 -v $PWD:/src \
                 -w /src \
                 mcr.microsoft.com/dotnet/sdk:8.0 \
-                dotnet publish lab01-hello-api/Lab01HelloApi.csproj -c Release -o /src/publish
+                dotnet publish -c Release -o /src/publish
                 '''
             }
         }
