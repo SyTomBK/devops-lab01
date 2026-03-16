@@ -3,14 +3,20 @@ pipeline {
 
     stages {
 
+        stage('Debug') {
+            steps {
+                sh 'ls -la'
+            }
+        }
+
         stage('Restore') {
             steps {
                 sh '''
                 docker run --rm \
-                -v /var/jenkins_home/workspace/devops-lab-pipeline:/src \
+                -v $WORKSPACE:/src \
                 -w /src \
                 mcr.microsoft.com/dotnet/sdk:8.0 \
-                dotnet restore lab01-hello-api.sln
+                dotnet restore
                 '''
             }
         }
@@ -19,10 +25,10 @@ pipeline {
             steps {
                 sh '''
                 docker run --rm \
-                -v /var/jenkins_home/workspace/devops-lab-pipeline:/src \
+                -v $WORKSPACE:/src \
                 -w /src \
                 mcr.microsoft.com/dotnet/sdk:8.0 \
-                dotnet build lab01-hello-api.sln --no-restore
+                dotnet build --no-restore
                 '''
             }
         }
@@ -31,10 +37,10 @@ pipeline {
             steps {
                 sh '''
                 docker run --rm \
-                -v /var/jenkins_home/workspace/devops-lab-pipeline:/src \
+                -v $WORKSPACE:/src \
                 -w /src \
                 mcr.microsoft.com/dotnet/sdk:8.0 \
-                dotnet publish lab01-hello-api.sln -c Release -o /src/publish
+                dotnet publish -c Release -o /src/publish
                 '''
             }
         }
