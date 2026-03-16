@@ -13,18 +13,18 @@ var builder = WebApplication.CreateBuilder(args);
 var appName = builder.Configuration["AppSettings:AppName"];
 
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseNpgsql(
+        builder.Configuration.GetConnectionString("DefaultConnection"),
+        o => o.EnableRetryOnFailure()
+    ));
 
 builder.Services.AddSingleton<RedisService>();
 
 Log.Information("Starting {AppName}", appName);
-
 Log.Information("Environment: {Env}", builder.Environment.EnvironmentName);
 
 builder.Host.UseSerilog();
 
-// Add services to the container.
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -37,13 +37,6 @@ using (var scope = app.Services.CreateScope())
     db.Database.Migrate();
 }
 
-builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseNpgsql(
-        builder.Configuration.GetConnectionString("DefaultConnection"),
-        o => o.EnableRetryOnFailure()
-    ));
-
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -51,8 +44,6 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
 app.MapControllers();
 
 app.Run();
-
