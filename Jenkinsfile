@@ -10,7 +10,7 @@ pipeline {
                 -v $PWD:/src \
                 -w /src \
                 mcr.microsoft.com/dotnet/sdk:8.0 \
-                dotnet restore lab01-hello-api.csproj
+                dotnet restore lab01-hello-api.sln
                 '''
             }
         }
@@ -22,7 +22,7 @@ pipeline {
                 -v $PWD:/src \
                 -w /src \
                 mcr.microsoft.com/dotnet/sdk:8.0 \
-                dotnet build lab01-hello-api.csproj --no-restore
+                dotnet build lab01-hello-api.sln --no-restore
                 '''
             }
         }
@@ -34,7 +34,7 @@ pipeline {
                 -v $PWD:/src \
                 -w /src \
                 mcr.microsoft.com/dotnet/sdk:8.0 \
-                dotnet publish lab01-hello-api.csproj -c Release -o /src/publish
+                dotnet publish lab01-hello-api.sln -c Release -o /src/publish
                 '''
             }
         }
