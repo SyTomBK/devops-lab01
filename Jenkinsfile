@@ -7,7 +7,7 @@ pipeline {
             steps {
                 sh '''
                 docker run --rm \
-                -v $PWD:/src \
+                -v /var/jenkins_home/workspace/devops-lab-pipeline:/src \
                 -w /src \
                 mcr.microsoft.com/dotnet/sdk:8.0 \
                 dotnet restore lab01-hello-api.sln
@@ -19,7 +19,7 @@ pipeline {
             steps {
                 sh '''
                 docker run --rm \
-                -v $PWD:/src \
+                -v /var/jenkins_home/workspace/devops-lab-pipeline:/src \
                 -w /src \
                 mcr.microsoft.com/dotnet/sdk:8.0 \
                 dotnet build lab01-hello-api.sln --no-restore
@@ -31,7 +31,7 @@ pipeline {
             steps {
                 sh '''
                 docker run --rm \
-                -v $PWD:/src \
+                -v /var/jenkins_home/workspace/devops-lab-pipeline:/src \
                 -w /src \
                 mcr.microsoft.com/dotnet/sdk:8.0 \
                 dotnet publish lab01-hello-api.sln -c Release -o /src/publish
