@@ -2,7 +2,7 @@ version: "3.9"
 
 services:
   api:
-    build: .
+    image: devops-lab-api
     ports:
       - "5000:8080"
     depends_on:
