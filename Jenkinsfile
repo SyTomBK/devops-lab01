@@ -5,19 +5,37 @@ pipeline {
 
         stage('Restore') {
             steps {
-                sh 'docker run --rm -v $WORKSPACE:/src -w /src mcr.microsoft.com/dotnet/sdk:8.0 dotnet restore'
+                sh '''
+                docker run --rm \
+                -v $WORKSPACE:/src \
+                -w /src \
+                mcr.microsoft.com/dotnet/sdk:8.0 \
+                dotnet restore lab01-hello-api.csproj
+                '''
             }
         }
 
         stage('Build') {
             steps {
-                sh 'docker run --rm -v $WORKSPACE:/src -w /src mcr.microsoft.com/dotnet/sdk:8.0 dotnet build --no-restore'
+                sh '''
+                docker run --rm \
+                -v $WORKSPACE:/src \
+                -w /src \
+                mcr.microsoft.com/dotnet/sdk:8.0 \
+                dotnet build lab01-hello-api.csproj --no-restore
+                '''
             }
         }
 
         stage('Publish') {
             steps {
-                sh 'docker run --rm -v $WORKSPACE:/src -w /src mcr.microsoft.com/dotnet/sdk:8.0 dotnet publish -c Release -o /src/publish'
+                sh '''
+                docker run --rm \
+                -v $WORKSPACE:/src \
+                -w /src \
+                mcr.microsoft.com/dotnet/sdk:8.0 \
+                dotnet publish lab01-hello-api.csproj -c Release -o /src/publish
+                '''
             }
         }
 
