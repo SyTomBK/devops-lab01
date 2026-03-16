@@ -3,6 +3,24 @@ pipeline {
 
     stages {
 
+        stage('Debug Workspace') {
+            steps {
+                sh 'pwd'
+                sh 'ls -la'
+            }
+        }
+
+        stage('Debug In Container') {
+            steps {
+                sh '''
+                docker run --rm \
+                -v $WORKSPACE:/src \
+                alpine \
+                sh -c "ls -la /src"
+                '''
+            }
+        }
+
         stage('Restore') {
             steps {
                 sh '''
@@ -42,13 +60,6 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 sh 'docker build -t devops-lab-api .'
-            }
-        }
-
-        stage('Deploy') {
-            steps {
-                sh 'docker compose down'
-                sh 'docker compose up -d'
             }
         }
 
