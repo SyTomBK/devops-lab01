@@ -8,9 +8,9 @@ pipeline {
                 sh '''
                 docker run --rm \
                 -v $PWD:/src \
-                -w /src/lab01-hello-api \
+                -w /src \
                 mcr.microsoft.com/dotnet/sdk:8.0 \
-                dotnet restore
+                dotnet restore lab01-hello-api/Lab01HelloApi.csproj
                 '''
             }
         }
@@ -20,9 +20,9 @@ pipeline {
                 sh '''
                 docker run --rm \
                 -v $PWD:/src \
-                -w /src/lab01-hello-api \
+                -w /src \
                 mcr.microsoft.com/dotnet/sdk:8.0 \
-                dotnet build --no-restore
+                dotnet build lab01-hello-api/Lab01HelloApi.csproj --no-restore
                 '''
             }
         }
@@ -32,9 +32,9 @@ pipeline {
                 sh '''
                 docker run --rm \
                 -v $PWD:/src \
-                -w /src/lab01-hello-api \
+                -w /src \
                 mcr.microsoft.com/dotnet/sdk:8.0 \
-                dotnet publish -c Release -o /src/publish
+                dotnet publish lab01-hello-api/Lab01HelloApi.csproj -c Release -o /src/publish
                 '''
             }
         }
